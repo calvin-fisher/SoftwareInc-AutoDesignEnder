@@ -7,7 +7,7 @@ using System.Timers;
 
 namespace AutoDesignEnder
 {
-    public class DesignEnderBehaviour : ModBehaviour
+    public class AutoDesignEnderBehaviour : ModBehaviour
     {
         public override void OnActivate()
         {
@@ -20,6 +20,7 @@ namespace AutoDesignEnder
 
         public override void OnDeactivate()
         {
+            timer.Stop();
         }
 
         private readonly Timer timer = new Timer(250);

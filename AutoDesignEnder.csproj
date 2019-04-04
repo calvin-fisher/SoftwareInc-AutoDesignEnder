@@ -48,8 +48,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DesignEnder.cs" />
-    <Compile Include="DesignEnderBehaviour.cs" />
+    <Compile Include="AutoDesignEnder.cs" />
+    <Compile Include="AutoDesignEnderBehaviour.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
