@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Timers;
+using UnityEngine;
 
 namespace AutoDesignEnder
 {
@@ -11,42 +13,43 @@ namespace AutoDesignEnder
     {
         public override void OnActivate()
         {
-            Console.WriteLine("Activating");
-
-            timer.Elapsed += UpdateProjects;
-            timer.AutoReset = true;
-            timer.Start();
+            isActive = true;
         }
 
         public override void OnDeactivate()
         {
-            timer.Stop();
+            isActive = false;
         }
 
-        private readonly Timer timer = new Timer(250);
+        volatile bool isActive;
 
-        private void UpdateProjects(object sender, ElapsedEventArgs e)
+        void Start()
         {
-            Debug.WriteLine("Updating projects");
-
-            if (GameSettings.Instance == null
-                || GameSettings.Instance.MyCompany == null
-                || GameSettings.Instance.MyCompany.WorkItems == null)
-            {
-                return;
-            }
-
-            var workItems = GameSettings.Instance.MyCompany.WorkItems;
-            var designDocuments = workItems.OfType<DesignDocument>();
-
-            foreach (var designDocument in designDocuments)
-            {
-                if (designDocument.HasFinished && !designDocument.Done)
-                {
-                    designDocument.PromoteAction();
-                }
-            }
+            StartCoroutine(UpdateProjects());
         }
 
+        IEnumerator UpdateProjects()
+        {
+            while (true)
+            {
+                if (isActive
+                    && GameSettings.Instance != null
+                    && GameSettings.Instance.MyCompany != null
+                    && GameSettings.Instance.MyCompany.WorkItems != null)
+                {
+                    var designDocuments = GameSettings.Instance.MyCompany.WorkItems.OfType<DesignDocument>().ToArray();
+
+                    foreach (var designDocument in designDocuments)
+                    {
+                        if (designDocument.HasFinished && !designDocument.Done)
+                        {
+                            designDocument.PromoteAction();
+                        }
+                    }
+                }
+
+                yield return new WaitForSeconds(0.25f);
+            }
+        }
     }
 }

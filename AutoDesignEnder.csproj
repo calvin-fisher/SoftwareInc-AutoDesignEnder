@@ -64,6 +64,6 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>robocopy $(ProjectDir)AutoDesignEnder "C:\Program Files (x86)\Steam\steamapps\common\Software Inc\DLLMods\AutoDesignEnder" /purge
-if %25errorlevel%25 LEQ 2 exit 0</PostBuildEvent>
+if %25errorlevel%25 LEQ 3 exit 0</PostBuildEvent>
   </PropertyGroup>
 </Project>
