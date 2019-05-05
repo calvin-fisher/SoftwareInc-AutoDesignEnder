@@ -37,7 +37,7 @@ namespace AutoDesignEnder
             }
 
             var workItems = GameSettings.Instance.MyCompany.WorkItems;
-            var designDocuments = workItems.OfType<DesignDocument>().ToList();
+            var designDocuments = workItems.OfType<DesignDocument>();
 
             foreach (var designDocument in designDocuments)
             {

@@ -48,8 +48,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoDesignEnder.cs" />
-    <Compile Include="AutoDesignEnderBehaviour.cs" />
+    <Compile Include="AutoDesignEnder\AutoDesignEnder.cs" />
+    <Compile Include="AutoDesignEnder\AutoDesignEnderBehaviour.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
@@ -62,4 +62,8 @@
     <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>robocopy $(ProjectDir)AutoDesignEnder "C:\Program Files (x86)\Steam\steamapps\common\Software Inc\DLLMods\AutoDesignEnder" /purge
+if %25errorlevel%25 LEQ 2 exit 0</PostBuildEvent>
+  </PropertyGroup>
 </Project>
