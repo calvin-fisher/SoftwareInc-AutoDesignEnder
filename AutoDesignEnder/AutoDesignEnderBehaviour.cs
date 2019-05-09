@@ -21,34 +21,23 @@ namespace AutoDesignEnder
             isActive = false;
         }
 
-        volatile bool isActive;
+        bool isActive;
 
-        void Start()
+        void Update()
         {
-            StartCoroutine(UpdateProjects());
-        }
-
-        IEnumerator UpdateProjects()
-        {
-            while (true)
+            if (isActive
+                && GameSettings.Instance != null
+                && GameSettings.Instance.MyCompany != null
+                && GameSettings.Instance.MyCompany.WorkItems != null)
             {
-                if (isActive
-                    && GameSettings.Instance != null
-                    && GameSettings.Instance.MyCompany != null
-                    && GameSettings.Instance.MyCompany.WorkItems != null)
+                var designDocuments = GameSettings.Instance.MyCompany.WorkItems.OfType<DesignDocument>();
+                foreach (var designDocument in designDocuments)
                 {
-                    var designDocuments = GameSettings.Instance.MyCompany.WorkItems.OfType<DesignDocument>().ToArray();
-
-                    foreach (var designDocument in designDocuments)
+                    if (designDocument.HasFinished && !designDocument.Done)
                     {
-                        if (designDocument.HasFinished && !designDocument.Done)
-                        {
-                            designDocument.PromoteAction();
-                        }
+                        designDocument.PromoteAction();
                     }
                 }
-
-                yield return new WaitForSeconds(0.25f);
             }
         }
     }
